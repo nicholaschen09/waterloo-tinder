@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* University of Waterloo color palette */
+    --gold-1: 50 71% 80%; /* Level 1 */
+    --gold-2: 52 96% 49%; /* Level 2 */
+    --gold-3: 42 99% 65%; /* Level 3 */
+    --gold-4: 39 100% 46%; /* Level 4 */
+
+    --black-1: 0 0% 87%; /* Level 1 */
+    --black-2: 0 0% 64%; /* Level 2 */
+    --black-3: 0 0% 47%; /* Level 3 */
+    --black-4: 0 0% 0%; /* Level 4 */
+
+    /* Faculty colors */
+    --arts-orange: 26 100% 43%;
+    --engineering-purple: 272 100% 28%;
+    --environment-green: 146 60% 36%;
+    --health-teal: 180 50% 45%;
+    --math-pink: 328 68% 48%;
+    --science-blue: 215 70% 40%;
+
+    /* Base colors for the app */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 42 99% 65%; /* gold-3 */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 42 99% 65%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 42 99% 65%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 39 100% 46%; /* gold-4 */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 39 100% 46%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 39 100% 46%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom classes for faculty colors */
+.bg-arts {
+  @apply bg-[hsl(26,100%,43%)];
+}
+
+.bg-engineering {
+  @apply bg-[hsl(272,100%,28%)];
+}
+
+.bg-environment {
+  @apply bg-[hsl(146,60%,36%)];
+}
+
+.bg-health {
+  @apply bg-[hsl(180,50%,45%)];
+}
+
+.bg-math {
+  @apply bg-[hsl(328,68%,48%)];
+}
+
+.bg-science {
+  @apply bg-[hsl(215,70%,40%)];
+}
+
+.text-arts {
+  @apply text-[hsl(26,100%,43%)];
+}
+
+.text-engineering {
+  @apply text-[hsl(272,100%,28%)];
+}
+
+.text-environment {
+  @apply text-[hsl(146,60%,36%)];
+}
+
+.text-health {
+  @apply text-[hsl(180,50%,45%)];
+}
+
+.text-math {
+  @apply text-[hsl(328,68%,48%)];
+}
+
+.text-science {
+  @apply text-[hsl(215,70%,40%)];
+}
