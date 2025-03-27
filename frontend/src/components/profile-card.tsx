@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Heart, Info, X } from "lucide-react";
-import { Card, CardContent } from "./ui/card";
+import { ArrowLeft, ArrowRight, Info } from "lucide-react";
+import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
