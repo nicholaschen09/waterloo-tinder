@@ -11,7 +11,6 @@ export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Initialize with mock data
   useEffect(() => {
     setUsers(MOCK_USERS);
   }, []);
@@ -33,7 +32,6 @@ export default function Home() {
 
   const handleSwipeRight = () => {
     if (currentIndex < users.length - 1) {
-      // 30% chance of getting a match
       const isMatch = Math.random() < 0.3;
 
       if (isMatch) {
@@ -66,7 +64,22 @@ export default function Home() {
               onSwipeLeft={handleSwipeLeft}
               onSwipeRight={handleSwipeRight}
             />
-            <div className="mt-6 text-center text-muted-foreground text-sm">
+            {/* Adjust the buttons container to have more margin-top */}
+            <div className="mt-12 flex justify-center gap-4"> {/* Adjust margin here */}
+              <button
+                onClick={handleSwipeLeft}
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+              >
+                Pass
+              </button>
+              <button
+                onClick={handleSwipeRight}
+                className="px-4 py-2 bg-green-500 text-white rounded-md"
+              >
+                Like
+              </button>
+            </div>
+            <div className="mt-12 text-center text-muted-foreground text-sm"> {/* Adjust margin here */}
               <p>Swipe left to pass or right to like</p>
             </div>
           </div>
