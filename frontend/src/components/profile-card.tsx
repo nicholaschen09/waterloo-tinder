@@ -129,23 +129,7 @@ export default function ProfileCard({ user, onSwipeLeft, onSwipeRight }: Profile
           </div>
         </div>
 
-        {/* Action buttons */}
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center p-4 gap-8 z-20">
-          <Button
-            onClick={onSwipeLeft}
-            className="rounded-full p-4 bg-red-500 hover:bg-red-600 text-white"
-            size="icon"
-          >
-            <X size={24} />
-          </Button>
-          <Button
-            onClick={onSwipeRight}
-            className="rounded-full p-4 bg-green-500 hover:bg-green-600 text-white"
-            size="icon"
-          >
-            <Heart size={24} />
-          </Button>
-        </div>
+    
       </Card>
 
       {/* Details dialog */}
