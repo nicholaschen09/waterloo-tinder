@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ChatBox from "@/components/ChatBox";
 import { MOCK_USERS } from "@/data/mockData";
 import Header from "@/components/header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -40,8 +41,10 @@ const generateChatPreviews = (users: User[], count: number): ChatPreview[] => {
   }));
 };
 
+
 export default function MessagesPage() {
   const [chats, setChats] = useState<ChatPreview[]>([]);
+  const [selectedChat, setSelectedChat] = useState<ChatPreview | null>(null);
 
   useEffect(() => {
     // Generate 3-8 chat previews
@@ -56,51 +59,68 @@ export default function MessagesPage() {
       <main className="flex-1 container max-w-5xl py-8 px-4">
         <h1 className="text-3xl font-bold mb-6">Messages</h1>
 
-        {chats.length > 0 ? (
-          <div className="divide-y rounded-md border">
-            {chats.map((chat, index) => (
-              <div
-                key={chat.user.id}
-                className={`flex items-center p-4 hover:bg-muted/50 transition cursor-pointer ${
-                  chat.unread ? "bg-muted/30" : ""
-                }`}
-              >
-                <Avatar className="h-12 w-12 mr-4">
-                  <AvatarImage src={chat.user.photos[0]} alt={chat.user.name} />
-                  <AvatarFallback>{chat.user.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Chat List */}
+          <div className={`flex-1 divide-y rounded-md border ${
+            selectedChat ? 'hidden md:block' : 'block'
+          }`}>
+            {chats.length > 0 ? (
+              chats.map((chat, index) => (
+                <div
+                  key={chat.user.id}
+                  onClick={() => setSelectedChat(chat)}
+                  className={`flex items-center p-4 hover:bg-muted/50 transition cursor-pointer ${
+                    selectedChat?.user.id === chat.user.id ? "bg-muted" : ""
+                  } ${chat.unread ? "bg-muted/30" : ""}`}
+                >
+                  <Avatar className="h-12 w-12 mr-4">
+                    <AvatarImage src={chat.user.photos[0]} alt={chat.user.name} />
+                    <AvatarFallback>{chat.user.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center mb-1">
-                    <h4 className="font-medium truncate">
-                      {chat.user.name}, {chat.user.age}
-                    </h4>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
-                      {formatDistanceToNow(chat.timestamp, { addSuffix: true })}
-                    </span>
-                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center mb-1">
+                      <h4 className="font-medium truncate">
+                        {chat.user.name}, {chat.user.age}
+                      </h4>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap ml-2">
+                        {formatDistanceToNow(chat.timestamp, { addSuffix: true })}
+                      </span>
+                    </div>
 
-                  <div className="flex items-center">
-                    <p className={`text-sm truncate ${chat.unread ? "font-medium" : "text-muted-foreground"}`}>
-                      {chat.lastMessage}
-                    </p>
+                    <div className="flex items-center">
+                      <p className={`text-sm truncate ${chat.unread ? "font-medium" : "text-muted-foreground"}`}>
+                        {chat.lastMessage}
+                      </p>
 
-                    {chat.unread && (
-                      <span className="ml-2 h-2 w-2 rounded-full bg-primary flex-shrink-0"></span>
-                    )}
+                      {chat.unread && (
+                        <span className="ml-2 h-2 w-2 rounded-full bg-primary flex-shrink-0"></span>
+                      )}
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="py-20 text-center">
+                <h2 className="text-2xl font-bold mb-2">No messages yet</h2>
+                <p className="text-muted-foreground">
+                  Match with someone to start a conversation!
+                </p>
               </div>
-            ))}
+            )}
           </div>
-        ) : (
-          <div className="py-20 text-center">
-            <h2 className="text-2xl font-bold mb-2">No messages yet</h2>
-            <p className="text-muted-foreground">
-              Match with someone to start a conversation!
-            </p>
+
+          {/* Chat Box */}
+          <div className={`${selectedChat ? 'block' : 'hidden md:block'} w-full md:w-1/2`}>
+            {selectedChat ? (
+              <ChatBox chat={selectedChat} onBack={() => setSelectedChat(null)} />
+            ) : (
+              <div className="h-[600px] flex items-center justify-center text-muted-foreground border rounded-md">
+                Select a conversation to start chatting
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </main>
 
       <footer className="py-6 border-t">

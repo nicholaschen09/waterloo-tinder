@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\098le\OneDrive\Desktop\waterloo-tinder\venv
+set VIRTUAL_ENV=C:\Users\098le\waterloo-tinder\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

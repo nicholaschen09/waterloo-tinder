@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\098le\OneDrive\Desktop\waterloo-tinder\venv"
+VIRTUAL_ENV="C:\Users\098le\waterloo-tinder\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
