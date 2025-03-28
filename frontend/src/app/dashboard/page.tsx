@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, Heart, X } from 'lucide-react';
+import Image from 'next/image';
 import { Navigation } from '@/components/navigation';
 
 export default function DashboardPage() {
@@ -127,10 +128,10 @@ export default function DashboardPage() {
               <Card className="overflow-hidden">
                 <div className="aspect-[3/4] bg-slate-200 relative">
                   {matches[currentMatchIndex].photos && matches[currentMatchIndex].photos.length > 0 ? (
-                    <img
+                    <Image
                       src={matches[currentMatchIndex].photos[0]}
                       alt={matches[currentMatchIndex].name}
-                      className="object-cover h-full w-full"
+                      fill={true} // Ensures the image fills the container and maintains aspect ratio
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full bg-slate-200">

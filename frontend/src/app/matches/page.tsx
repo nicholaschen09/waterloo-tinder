@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import { Navigation } from '@/components/navigation';
 
 export default function MatchesPage() {
@@ -89,7 +90,7 @@ export default function MatchesPage() {
               <Card key={match.user_id} className="overflow-hidden">
                 <div className="aspect-square bg-slate-200 relative">
                   {match.photos && match.photos.length > 0 ? (
-                    <img
+                    <Image
                       src={match.photos[0]}
                       alt={match.name}
                       className="object-cover h-full w-full"
