@@ -33,7 +33,7 @@ const generateChatPreviews = (users: User[], count: number): ChatPreview[] => {
     "Have you been to the new restaurant on campus?"
   ];
 
-  return selectedUsers.map(user => ({
+  return selectedUsers.map(user => ({ 
     user,
     lastMessage: messages[Math.floor(Math.random() * messages.length)],
     timestamp: new Date(Date.now() - Math.floor(Math.random() * 604800000)), // Random time in the last week
