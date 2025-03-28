@@ -47,3 +47,10 @@ export type Swipe = {
   direction: "left" | "right";
   timestamp: Date;
 };
+
+export interface ChatPreview {
+  user: User;
+  lastMessage: string;
+  timestamp: Date;
+  unread: boolean;
+}
