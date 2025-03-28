@@ -1,96 +1,132 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { MOCK_USERS } from "@/data/mockData";
-import Header from "@/components/header";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
-import { User } from "@/types";
-
-// Randomly select some mock users as matches
-const getRandomMatches = (users: User[], count: number) => {
-  const shuffled = [...users].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { Match } from '@/types/api';
+import { getPotentialMatches } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Loader2, MessageCircle } from 'lucide-react';
+import { Navigation } from '@/components/navigation';
 
 export default function MatchesPage() {
-  const [matches, setMatches] = useState<User[]>([]);
+  const { user, isLoading, isAuthenticated } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [isLoadingMatches, setIsLoadingMatches] = useState(true);
 
   useEffect(() => {
-    // Simulate 5-10 matches from our mock users
-    const matchCount = Math.floor(Math.random() * 6) + 5;
-    setMatches(getRandomMatches(MOCK_USERS, matchCount));
-  }, []);
+    // If not authenticated and not loading, redirect to login
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isLoading, isAuthenticated, router]);
+
+  useEffect(() => {
+    // Fetch matches
+    const fetchMatches = async () => {
+      try {
+        setIsLoadingMatches(true);
+        const { matches } = await getPotentialMatches();
+        // Filter only accepted matches
+        const acceptedMatches = matches.filter(match => match.match_status === 'accepted');
+        setMatches(acceptedMatches);
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'Failed to load matches',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsLoadingMatches(false);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchMatches();
+    }
+  }, [isAuthenticated, toast]);
+
+  // Show loading state
+  if (isLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-
-      <main className="flex-1 container max-w-5xl py-8 px-4">
+    <div className="min-h-screen py-8 px-4 pb-20">
+      <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Your Matches</h1>
-
-        {matches.length > 0 ? (
+        
+        {isLoadingMatches ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        ) : matches.length === 0 ? (
+          <Card className="text-center py-12">
+            <CardContent>
+              <h2 className="text-xl font-semibold mb-2">No Matches Yet</h2>
+              <p className="text-muted-foreground">
+                You haven't matched with anyone yet. Keep swiping to find your perfect match!
+              </p>
+              <Button 
+                className="mt-4"
+                onClick={() => router.push('/dashboard')}
+              >
+                Find Matches
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {matches.map((user) => (
-              <Card key={user.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                <div className="relative h-48">
-                  {user.photos[0] && (
-                    <div className="absolute inset-0">
-                      <img
-                        src={user.photos[0]}
-                        alt={user.name}
-                        className="w-full h-full object-cover"
-                      />
+            {matches.map(match => (
+              <Card key={match.user_id} className="overflow-hidden">
+                <div className="aspect-square bg-slate-200 relative">
+                  {match.photos && match.photos.length > 0 ? (
+                    <img
+                      src={match.photos[0]}
+                      alt={match.name}
+                      className="object-cover h-full w-full"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full bg-slate-200">
+                      <span className="text-slate-400">No photo available</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-4 text-white">
-                    <h3 className="font-bold">{user.name}, {user.age}</h3>
-                    <p className="text-sm text-white/80">{user.faculty} • {user.program}</p>
-                  </div>
                 </div>
-
                 <CardContent className="p-4">
-                  <div className="flex justify-between items-center">
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {user.interests.slice(0, 3).map((interest, index) => (
-                        <span
-                          key={index}
-                          className="px-2 py-1 bg-muted text-xs rounded-full"
-                        >
-                          {interest}
-                        </span>
-                      ))}
-                      {user.interests.length > 3 && (
-                        <span className="px-2 py-1 bg-muted text-xs rounded-full">
-                          +{user.interests.length - 3} more
-                        </span>
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h2 className="text-xl font-bold">{match.name}, {match.age}</h2>
+                      {match.program && (
+                        <p className="text-sm text-slate-500">{match.program}</p>
                       )}
                     </div>
-
-                    <button className="px-4 py-2 text-sm rounded-full bg-primary text-primary-foreground">
-                      Message
-                    </button>
+                    <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                      {match.distance} km away
+                    </span>
                   </div>
+                  
+                  <p className="text-sm line-clamp-2 mb-3">{match.bio}</p>
+                  
+                  <Button className="w-full" size="sm">
+                    <MessageCircle className="h-4 w-4 mr-2" />
+                    Message
+                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
-        ) : (
-          <div className="py-20 text-center">
-            <h2 className="text-2xl font-bold mb-2">No matches yet</h2>
-            <p className="text-muted-foreground">
-              Keep swiping to find your campus connection!
-            </p>
-          </div>
         )}
-      </main>
-
-      <footer className="py-6 border-t">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>WaterlooMatch - Exclusively for University of Waterloo students</p>
-        </div>
-      </footer>
+      </div>
+      
+      <Navigation />
     </div>
   );
 }
