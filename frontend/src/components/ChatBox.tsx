@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import EmojiPicker from "emoji-picker-react";
 import { Smile, ArrowLeft } from "lucide-react";
 
+
 interface ChatBoxProps {
   chat: ChatPreview;
   onBack: () => void;
