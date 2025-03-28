@@ -91,16 +91,18 @@ export default function ProfileCard({ user, onSwipeLeft, onSwipeRight }: Profile
               <button
                 onClick={prevPhoto}
                 disabled={currentPhotoIndex === 0}
+                title="Previous photo"
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full disabled:opacity-0 z-20"
               >
                 <ArrowLeft size={20} />
-              </button>
               <button
                 onClick={nextPhoto}
                 disabled={currentPhotoIndex === user.photos.length - 1}
+                title="Next photo"
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 text-white p-2 rounded-full disabled:opacity-0 z-20"
               >
                 <ArrowRight size={20} />
+              </button>
               </button>
             </>
           )}
