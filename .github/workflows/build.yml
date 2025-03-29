@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +29,20 @@ jobs:
       - name: Run build
         run: npm run build
         working-directory: ./frontend
+
+  delete-branch:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch_to_delete=$(jq -r '.pull_request.head.ref' < "$GITHUB_EVENT_PATH")
+          if [ "$branch_to_delete" != "main" ]; then
+            echo "Deleting branch: $branch_to_delete"
+            git push origin --delete "$branch_to_delete"
+          else
+            echo "Main branch cannot be deleted."
+          fi
