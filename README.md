@@ -24,6 +24,9 @@ npm install
 
 # Run the development server
 npm run dev
+
+# The next.js development server should be set up at
+localhost:3000
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -63,4 +66,4 @@ To learn more about the technologies used in this project:
 
 ## Deployment
 
-To be added.
+The frontend is deployed on Vercel. The backend will be deployed soon.
