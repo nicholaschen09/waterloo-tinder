@@ -12,7 +12,9 @@
     "docker:stop": "docker-compose down",
     "docker:dev": "docker-compose up --build",
     "test": "jest",
-    "prettier:check": "prettier --check ."
+    "prettier": "prettier",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
