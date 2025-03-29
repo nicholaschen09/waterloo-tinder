@@ -12,7 +12,6 @@
     "docker:stop": "docker-compose down",
     "docker:dev": "docker-compose up --build",
     "test": "jest",
-    "e2e": "cypress run",
     "prettier:check": "prettier --check ."
   },
   "dependencies": {
