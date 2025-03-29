@@ -29,8 +29,10 @@ jobs:
       - name: Run Cypress Tests
         run: npm run e2e
         working-directory: ./frontend
-      
+
       - name: Run Prettier Check
         run: npm run prettier:check
-        working-directory: ./frontend 
-      
+        working-directory: ./frontend
+
+      - name: Build Docker Image
+        run: docker build -t your-app .
