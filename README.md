@@ -45,7 +45,7 @@ venv\Scripts\activate.bat
 # Start the flask server
 python app.py
 
-# The flask server should be set up at 
+# The flask server should be set up at
 localhost:5000
 ```
 
