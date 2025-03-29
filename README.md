@@ -63,4 +63,4 @@ To learn more about the technologies used in this project:
 
 ## Deployment
 
-To be added.
+The frontend is deployed on Vercel. The backend will be deployed soon.
