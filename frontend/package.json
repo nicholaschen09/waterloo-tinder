@@ -3,14 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-      "dev": "next dev -H 0.0.0.0 --turbopack",
-      "build": "next build",
-      "start": "next start",
-      "lint": "next lint",
-      "docker:build": "docker-compose build",
-      "docker:star": "docker-compose up",
-      "docker:dev": "docker-compose up --build"
-    },
+    "dev": "next dev -H 0.0.0.0 --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "docker:build": "docker-compose build",
+    "docker:star": "docker-compose up",
+    "docker:dev": "docker-compose up --build",
+    "test": "jest",
+    "e2e": "cypress run",
+    "prettier:check": "prettier --check ."
+  },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
     "@radix-ui/react-avatar": "^1.1.3",
