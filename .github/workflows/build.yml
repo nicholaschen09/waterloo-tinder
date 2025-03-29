@@ -45,3 +45,22 @@ jobs:
       - name: Run Prettier Check
         run: npm run prettier:check
         working-directory: ./frontend
+
+  validate-pr-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate PR Title
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prTitle = context.payload.pull_request.title;
+            const validTitleRegex = /^(feat|fix|test|chore):\s.+$/;
+
+            if (!validTitleRegex.test(prTitle)) {
+              throw new Error(
+                `Invalid PR title: "${prTitle}".\n` +
+                `PR titles must follow the format: "type: description".\n` +
+                `Valid types are: feat, fix, test, chore.`
+              );
+            }
