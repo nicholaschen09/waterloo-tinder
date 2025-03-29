@@ -30,17 +30,19 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-  delete-merged-branches:
-    if: github.ref == 'refs/heads/main'
+  delete-branch:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Delete merged branches
+      - name: Delete branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch --prune
-          for branch in $(git branch -r --merged origin/main | grep -v "main" | sed 's/origin\///'); do
-            git push origin --delete $branch
-          done
+          branch_to_delete=$(jq -r '.pull_request.head.ref' < "$GITHUB_EVENT_PATH")
+          if [ "$branch_to_delete" != "main" ]; then
+            echo "Deleting branch: $branch_to_delete"
+            git push origin --delete "$branch_to_delete"
+          else
+            echo "Main branch cannot be deleted."
+          fi
