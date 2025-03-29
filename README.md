@@ -1,6 +1,6 @@
-# Waterloo Tinder
+# Match
 
-A modern dating application for the Waterloo community.
+A modern application to match you with the right person
 
 ## Project Structure
 
