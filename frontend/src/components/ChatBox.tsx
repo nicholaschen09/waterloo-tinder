@@ -21,7 +21,7 @@ export default function ChatBox({ chat, onBack }: ChatBoxProps) {
     setMessage("");
   };
 
-  const onEmojiClick = (emojiObject: any) => {
+   const onEmojiClick = (emojiObject: { emoji: string }) => {
     setMessage((prevMessage) => prevMessage + emojiObject.emoji);
     setShowEmojiPicker(false);
   };

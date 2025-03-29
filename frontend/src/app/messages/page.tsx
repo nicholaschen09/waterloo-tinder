@@ -9,6 +9,8 @@ import { User } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 
 interface ChatPreview {
+  id: string;
+  name: string;
   user: User;
   lastMessage: string;
   timestamp: Date;
@@ -34,6 +36,8 @@ const generateChatPreviews = (users: User[], count: number): ChatPreview[] => {
   ];
 
   return selectedUsers.map(user => ({ 
+    id: user.id,
+    name: user.name,
     user,
     lastMessage: messages[Math.floor(Math.random() * messages.length)],
     timestamp: new Date(Date.now() - Math.floor(Math.random() * 604800000)), // Random time in the last week

@@ -8,11 +8,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface LayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
