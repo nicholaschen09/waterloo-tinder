@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +29,18 @@ jobs:
       - name: Run build
         run: npm run build
         working-directory: ./frontend
+
+  delete-merged-branches:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Delete merged branches
+        run: |
+          git fetch --prune
+          for branch in $(git branch -r --merged origin/main | grep -v "main" | sed 's/origin\///'); do
+            git push origin --delete $branch
+          done
